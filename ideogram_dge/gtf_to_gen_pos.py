@@ -43,7 +43,7 @@ parser.add_argument('--organism',
                     help='Scientific name of organism (e.g. Mus musculus)')
 parser.add_argument('--output-dir',
                     help='Directory to send output data to',
-                    default='../../data/annotations/')
+                    default='')
 
 args = parser.parse_args()
 organism = args.organism
