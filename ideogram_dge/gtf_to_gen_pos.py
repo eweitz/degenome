@@ -45,9 +45,7 @@ def create_parser():
     parser.add_argument('--output-dir',
                         help='Directory to send output data to',
                         default='')
-
-    args = parser.parse_args()
-    return args
+    return parser
 
 
 def natural_sort(l):
@@ -73,7 +71,6 @@ def natural_sort(l):
 def get_genes_by_chr(gtf):
     # Chromosome or scaffolds.  Needed for NCBI RefSeq, but not Ensembl.
     chrs_by_accession = {}
-
 
     provider = 'ncbi'
     if 'Ensembl' in gtf[0]:
@@ -138,7 +135,7 @@ def get_genes_by_chr(gtf):
         else:
             genes_by_chr[chr] = [gene]
 
-        return genes_by_chr, provider
+    return genes_by_chr, provider
 
 def extract(gtf_path):
     with gzip.open(gtf_path, mode='rt') as f:
@@ -185,11 +182,16 @@ def load(gen_pos, organism, output_dir):
 
     print('Wrote ' + output_path)
 
-def main():
-    args = create_parser()
+def etl(args):
+    """Extract, transform, and load GTF file to gen pos file
+    """
     gtf = extract(args.gtf_path)
     gen_pos = transform(gtf, args.gtf_path, args.organism)
     load(gen_pos, args.organism, args.output_dir)
+
+def main():
+    parser = create_parser().parse_args()
+    etl(args)
 
 
 if __name__ == '__main__':
