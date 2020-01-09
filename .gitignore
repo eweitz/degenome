@@ -1,1 +1,6 @@
+# Ignore Python miscellanea
 env
+__pycache__
+
+# Ignore app-specific miscellanea
+*.gen_pos.tsv
