@@ -190,7 +190,7 @@ def etl(args):
     load(gen_pos, args.organism, args.output_dir)
 
 def main():
-    parser = create_parser().parse_args()
+    args = create_parser().parse_args()
     etl(args)
 
 
