@@ -14,7 +14,7 @@
 # Possible TODOs: 
 # - Convert to Python
 # - Use variables!
-# - Read entire file once, not once for each chromosomes
+# - Read entire file once, not once for each chromosome
 
 head -n 1 gencode.vM23.basic.annotation.gtf  > sampled_gencode.vM23.basic.annotation.gtf
 grep -E "chr1\t" gencode.vM23.basic.annotation.gtf | head -n 500 >> sampled_gencode.vM23.basic.annotation.gtf
