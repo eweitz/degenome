@@ -4,6 +4,7 @@ import glob
 
 sys.path.append('../ideogram_dge')
 import gtf_to_gen_pos
+import dge_to_ideogram
 
 
 class GtfToGenPosTestCase(unittest.TestCase):
@@ -39,3 +40,26 @@ class GtfToGenPosTestCase(unittest.TestCase):
             'protein_coding'
         )
         self.assertEqual(gen_pos[-1].strip(), expected_last_line)
+
+
+class DgeToIdeogramTestCase(unittest.TestCase):
+
+    def test_dge_to_ideogram(self):
+        args = [
+            '--gen-pos-path',
+            '../tests/data/Mus_musculus.gen_pos.tsv',
+            '--dge-path',
+            '../tests/data/sampled_GLDS-21_array_differential_expression.csv',
+            '--output-dir',
+            'data'
+        ]
+        parsed_args = dge_to_ideogram.create_parser().parse_args(args)
+        gene_pos_path = parsed_args.gen_pos_path
+        dge_path = parsed_args.dge_path
+        output_dir = parsed_args.output_dir
+
+        dge_to_ideogram.etl(gene_pos_path, dge_path, output_dir)
+
+        output_files = glob.glob("data/*.json")
+
+        self.assertEqual(len(output_files), 5)

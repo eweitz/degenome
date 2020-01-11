@@ -22,28 +22,11 @@ import argparse
 import json
 import csv
 
-parser = argparse.ArgumentParser(
-    description=__doc__,
-    formatter_class=argparse.RawDescriptionHelpFormatter)
-parser.add_argument('--gen-pos-path',
-                    help='Path to input gene position file built by reduce_gtf.py')
-parser.add_argument('--dge-path',
-                    help='Path to input differential gene expression (DGE) matrix')
-parser.add_argument('--output-dir',
-                    help='Directory to send output data to',
-                    default='ideogram/data/annotations/')
-
-args = parser.parse_args()
-gene_pos_path = args.gen_pos_path
-dge_path = args.dge_path
-output_dir = args.output_dir
-
-if output_dir[-1] != '/':
-    output_dir += '/'
-
 def get_gene_coordinates(gene_pos_path):
     """Parse gene position file, return dictionary of coordinates for each gene
     """
+    print('gene_pos_path')
+    print(gene_pos_path)
     with open(gene_pos_path) as f:
         lines = f.readlines()
 
@@ -282,65 +265,94 @@ def get_dge_metadata(group, annots_by_chr_by_group):
 
     return dge_metadata, suffix
 
+def create_parser():
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--gen-pos-path',
+                        help='Path to input gene position file built by reduce_gtf.py')
+    parser.add_argument('--dge-path',
+                        help='Path to input differential gene expression (DGE) matrix')
+    parser.add_argument('--output-dir',
+                        help='Directory to send output data to',
+                        default='ideogram/data/annotations/')
+    return parser
 
-coordinates, gene_types, gene_pos_metadata = get_gene_coordinates(gene_pos_path)
-metadata, metadata_list, expressions, comparisons_by_group = parse_dge_matrix(dge_path)
+def etl(gene_pos_path, dge_path, output_dir):
+    if output_dir[-1] != '/':
+        output_dir += '/'
 
-[annots_by_chr_by_group, sorted_gene_types] =\
-    get_annots_by_chr(coordinates, expressions, gene_types, metadata)
 
-content_by_suffix = {}
+    coordinates, gene_types, gene_pos_metadata = get_gene_coordinates(gene_pos_path)
+    metadata, metadata_list, expressions, comparisons_by_group = parse_dge_matrix(dge_path)
 
-for i, group in enumerate(annots_by_chr_by_group):
-    annots_by_chr = annots_by_chr_by_group[group]
-    annots_list = list(annots_by_chr.values())
+    [annots_by_chr_by_group, sorted_gene_types] =\
+        get_annots_by_chr(coordinates, expressions, gene_types, metadata)
 
-    comparisons = comparisons_by_group[group]['comparisons']
-    comparison_labels = get_key_labels(comparisons)
-    comparison_list = list(comparison_labels.keys())
+    content_by_suffix = {}
 
-    keys = ['name', 'start', 'length', 'gene-type'] + metadata_list + comparison_list
+    for i, group in enumerate(annots_by_chr_by_group):
+        annots_by_chr = annots_by_chr_by_group[group]
+        annots_list = list(annots_by_chr.values())
 
-    metadata = get_metadata(gene_pos_metadata, sorted_gene_types, comparison_labels)
-    for group2 in annots_by_chr_by_group:
-        group_label = comparisons_by_group[group2]['label']
-        metadata['labels'][group2] = group_label
+        comparisons = comparisons_by_group[group]['comparisons']
+        comparison_labels = get_key_labels(comparisons)
+        comparison_list = list(comparison_labels.keys())
 
-    dge_metadata, suffix = get_dge_metadata(group, annots_by_chr_by_group)
+        keys = ['name', 'start', 'length', 'gene-type'] + metadata_list + comparison_list
 
-    metadata['dge'] = dge_metadata
+        metadata = get_metadata(gene_pos_metadata, sorted_gene_types, comparison_labels)
+        for group2 in annots_by_chr_by_group:
+            group_label = comparisons_by_group[group2]['label']
+            metadata['labels'][group2] = group_label
 
-    annots = {'keys': keys, 'annots': annots_list, 'metadata': metadata}
+        dge_metadata, suffix = get_dge_metadata(group, annots_by_chr_by_group)
 
-    annots_json = json.dumps(annots)
-    content_by_suffix[suffix] = annots_json
+        metadata['dge'] = dge_metadata
 
-# Ensure we have a default suffix (indicated by '') so Ideogram can load
-# annotations data given only an accession
-if '' not in content_by_suffix:
-    default_suffix = None
-    print(content_by_suffix.keys())
+        annots = {'keys': keys, 'annots': annots_list, 'metadata': metadata}
+
+        annots_json = json.dumps(annots)
+        content_by_suffix[suffix] = annots_json
+
+    # Ensure we have a default suffix (indicated by '') so Ideogram can load
+    # annotations data given only an accession
+    if '' not in content_by_suffix:
+        default_suffix = None
+        print(content_by_suffix.keys())
+        for suffix in content_by_suffix:
+            if 'control' not in suffix:
+                # Try to find a suffix indicating strongest treatment group
+                default_suffix = suffix
+                break
+        if default_suffix is None:
+            # Fallback; just use the first suffix as default if none found yet
+            first_suffix = list(content_by_suffix.keys())[0]
+            default_suffix = first_suffix
+        content_by_suffix[''] = content_by_suffix[default_suffix]
+        del content_by_suffix[default_suffix]
+
     for suffix in content_by_suffix:
-        if 'control' not in suffix:
-            # Try to find a suffix indicating strongest treatment group
-            default_suffix = suffix
-            break
-    if default_suffix is None:
-        # Fallback; just use the first suffix as default if none found yet
-        first_suffix = list(content_by_suffix.keys())[0]
-        default_suffix = first_suffix
-    content_by_suffix[''] = content_by_suffix[default_suffix]
-    del content_by_suffix[default_suffix]
+        annots_json = content_by_suffix[suffix]
+        output_filename = dge_path.split('/')[-1].replace('.csv', '') + \
+            '_ideogram_annots' + suffix + '.json'
 
-for suffix in content_by_suffix:
-    annots_json = content_by_suffix[suffix]
-    output_filename = dge_path.split('/')[-1].replace('.csv', '') + \
-        '_ideogram_annots' + suffix + '.json'
+        output_path = output_dir + output_filename
 
-    output_path = output_dir + output_filename
+        output_filename = output_dir + output_filename
+        with open(output_filename, 'w') as f:
+            f.write(annots_json)
 
-    output_filename = output_dir + output_filename
-    with open(output_filename, 'w') as f:
-        f.write(annots_json)
+        print('Wrote ' + output_filename)
 
-    print('Wrote ' + output_filename)
+
+def main():
+    args = create_parser().parse_args()
+    gene_pos_path = args.gen_pos_path
+    dge_path = args.dge_path
+    output_dir = args.output_dir
+    etl(gene_pos_path, dge_path, output_dir)
+
+
+if __name__ == '__main__':
+    main()
