@@ -7,3 +7,4 @@ sampled_GLDS*json
 
 # Ignore macOS miscellanea
 .DS_Store
+.vscode

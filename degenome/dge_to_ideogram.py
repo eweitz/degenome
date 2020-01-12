@@ -112,6 +112,8 @@ def parse_dge_matrix(dge_matrix_path):
         reader = csv.reader(f)
 
         headers = next(reader, None)
+        print('headers')
+        print(headers)
         metadata_keys = [headers[2], headers[4]] # GENENAME, ENTREZID
 
         comparisons_by_group = get_comparisons(headers)
