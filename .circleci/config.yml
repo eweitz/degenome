@@ -27,7 +27,6 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
-            git lfs checkout
 
       - run:
           name: Install Git LFS
