@@ -4,6 +4,7 @@
   :width: 600
   :alt: Explore differential expression across the genome
 
+
 .. toctree::
    :maxdepth: 2
    :hidden:
