@@ -14,12 +14,14 @@ class GtfToGenPosTestCase(unittest.TestCase):
             '--gtf-path',
             '../tests/data/sampled_gencode.vM23.basic.annotation.gtf.gz',
             '--organism',
-            'Mus musculus'
+            'Mus musculus',
+            '--output-dir',
+            '/tmp/'
         ]
         parsed_args = gtf_to_gen_pos.create_parser().parse_args(args)
         gtf_to_gen_pos.etl(parsed_args)
 
-        with open('Mus_musculus.gen_pos.tsv') as f:
+        with open('/tmp/Mus_musculus.gen_pos.tsv') as f:
             gen_pos = f.readlines()
 
         self.assertEqual(len(gen_pos), 188)
