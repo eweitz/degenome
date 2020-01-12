@@ -23,6 +23,7 @@ author = 'Eric Weitz'
 
 show_authors = True
 html_show_copyright = False
+master_doc = 'index'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'
