@@ -17,9 +17,12 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'ideogram-dge'
-copyright = '2020, Eric Weitz'
+project = 'degenome'
+copyright = 'Public domain (CC0-1.0), Eric Weitz'
 author = 'Eric Weitz'
+
+show_authors = True
+html_show_copyright = False
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'

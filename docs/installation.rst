@@ -5,4 +5,3 @@ Run::
 
     git clone https://github.com/eweitz/degenome
 
-Then you 
