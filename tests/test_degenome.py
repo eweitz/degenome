@@ -2,7 +2,7 @@ import sys
 import unittest
 import glob
 
-sys.path.append('../ideogram_dge')
+sys.path.append('../degenome')
 import gtf_to_gen_pos
 import dge_to_ideogram
 
