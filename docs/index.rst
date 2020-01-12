@@ -10,7 +10,9 @@ Welcome to ideogram-dge's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. image:: images/explore_differential_expression_across_the_genome_2020-01-11.png
+   installation
+
+.. image:: images/explore_differential_expression_across_the_genome.png
   :width: 600
   :alt: Explore differential expression across the genome
 
