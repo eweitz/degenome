@@ -112,8 +112,6 @@ def parse_dge_matrix(dge_matrix_path):
         reader = csv.reader(f)
 
         headers = next(reader, None)
-        print('headers')
-        print(headers)
         metadata_keys = [headers[2], headers[4]] # GENENAME, ENTREZID
 
         comparisons_by_group = get_comparisons(headers)
@@ -280,6 +278,20 @@ def create_parser():
                         default='ideogram/data/annotations/')
     return parser
 
+def load(content_by_suffix, dge_path, output_dir):
+    for suffix in content_by_suffix:
+        annots_json = content_by_suffix[suffix]
+        output_filename = dge_path.split('/')[-1].replace('.csv', '') + \
+            '_ideogram_annots' + suffix + '.json'
+
+        output_path = output_dir + output_filename
+
+        output_filename = output_dir + output_filename
+        with open(output_filename, 'w') as f:
+            f.write(annots_json)
+
+        print('Wrote ' + output_filename)
+
 def etl(gene_pos_path, dge_path, output_dir):
     if output_dir[-1] != '/':
         output_dir += '/'
@@ -334,18 +346,7 @@ def etl(gene_pos_path, dge_path, output_dir):
         content_by_suffix[''] = content_by_suffix[default_suffix]
         del content_by_suffix[default_suffix]
 
-    for suffix in content_by_suffix:
-        annots_json = content_by_suffix[suffix]
-        output_filename = dge_path.split('/')[-1].replace('.csv', '') + \
-            '_ideogram_annots' + suffix + '.json'
-
-        output_path = output_dir + output_filename
-
-        output_filename = output_dir + output_filename
-        with open(output_filename, 'w') as f:
-            f.write(annots_json)
-
-        print('Wrote ' + output_filename)
+    load(content_by_suffix, dge_path, output_dir)
 
 
 def main():
