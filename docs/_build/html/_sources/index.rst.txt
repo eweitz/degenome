@@ -21,7 +21,7 @@ https://eweitz.github.io/ideogram/differential-expression.
   :target: https://codecov.io/gh/eweitz/degenome
 
 .. image:: images/explore_differential_expression_across_the_genome.png
-  :width: 600
+  :width: 690
   :alt: Explore differential expression across the genome
 
 .. toctree::
