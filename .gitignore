@@ -4,6 +4,8 @@ __pycache__
 
 # Ignore app-specific miscellanea
 sampled_GLDS*json
+.coverage
+coverage.xml
 
 # Ignore macOS miscellanea
 .DS_Store

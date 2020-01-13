@@ -4,6 +4,9 @@
 #
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@1.0.5
+
 jobs:
   build:
     docker:
@@ -17,9 +20,9 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v3-dependencies-{{ checksum "requirements.txt" }}
+            - v4-dependencies-{{ checksum "requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
-            - v3-dependencies-
+            - v4-dependencies-
 
       - run:
           name: Install Python dependencies
@@ -31,11 +34,14 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v3-dependencies-{{ checksum "requirements.txt" }}
+          key: v4-dependencies-{{ checksum "requirements.txt" }}
 
       - run:
           name: Run tests
           command: |
             . venv/bin/activate
             cd tests
-            pytest
+            pytest --cov-report=xml --cov=../degenome/
+
+      - codecov/upload:
+          file: tests/coverage.xml
