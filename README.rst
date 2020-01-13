@@ -1,5 +1,5 @@
-DEGenome – Differential expression of the genome
-================================================
+DEGenome – Differential expression across the genome
+====================================================
 |Build|
 
 DEGenome transforms differential gene expression (DGE) data to Ideogram_ JSON.
