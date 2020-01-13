@@ -1,5 +1,6 @@
 DEGenome – Differential expression of the genome
 ================================================
+|Build|
 
 DEGenome transforms differential gene expression (DGE) data to Ideogram_ JSON.
 
@@ -11,6 +12,9 @@ interactive genome visualization at
 https://eweitz.github.io/ideogram/differential-expression.
 
 .. _Ideogram: https://github.com/eweitz/ideogram
+
+.. |Build| image:: https://img.shields.io/circleci/build/github/eweitz/degenome.svg
+  :target: https://circleci.com/gh/eweitz/degenome
 
 .. image:: images/explore_differential_expression_across_the_genome.png
   :width: 600

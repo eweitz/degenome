@@ -3,8 +3,8 @@ env
 __pycache__
 
 # Ignore app-specific miscellanea
-*.gen_pos.tsv
 sampled_GLDS*json
 
 # Ignore macOS miscellanea
 .DS_Store
+.vscode
