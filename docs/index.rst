@@ -2,6 +2,7 @@ DEGenome – Differential expression across the genome
 ====================================================
 |Build| |Coverage|
 
+
 DEGenome transforms differential gene expression (DGE) data to Ideogram_ JSON.
 
 Written in Python, the DEGenome pipeline takes in genome annotations and DGE
