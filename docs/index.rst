@@ -29,3 +29,5 @@ https://eweitz.github.io/ideogram/differential-expression.
    :hidden:
 
    installation
+   reduce-gtf
+   transform-dge-matrix
