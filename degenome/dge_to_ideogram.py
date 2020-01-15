@@ -278,7 +278,7 @@ def load(content_by_suffix, dge_path, output_dir):
         print('Wrote ' + output_filename)
 
 def etl(gen_pos_path=None, dge_path=None, output_dir=''):
-    if output_dir[-1] != '/':
+    if len(output_dir) == 0 or output_dir[-1] != '/':
         output_dir += '/'
     gene_pos_path = gen_pos_path
     coordinates, gene_types, gene_pos_metadata = get_gene_coordinates(gene_pos_path)
