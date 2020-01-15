@@ -185,7 +185,7 @@ def load(gen_pos, organism, output_dir):
 def etl(gtf_path=None, organism=None, output_dir=''):
     """Extract, transform, and load GTF file to gen pos file
     """
-    if  len(output_dir) == 0 or output_dir[-1] != '/':
+    if len(output_dir) > 1 and output_dir[-1] != '/':
         output_dir += '/'
     gtf = extract(gtf_path)
     gen_pos = transform(gtf, gtf_path, organism)
