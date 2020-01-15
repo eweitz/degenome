@@ -19,7 +19,10 @@ class GtfToGenPosTestCase(unittest.TestCase):
             '/tmp/'
         ]
         parsed_args = gtf_to_gen_pos.create_parser().parse_args(args)
-        gtf_to_gen_pos.etl(parsed_args)
+        gtf_path = parsed_args.gtf_path
+        organism = parsed_args.organism
+        output_dir= parsed_args.output_dir
+        gtf_to_gen_pos.etl(gtf_path=gtf_path, organism=organism, output_dir=output_dir)
 
         with open('/tmp/Mus_musculus.gen_pos.tsv') as f:
             gen_pos = f.readlines()
@@ -60,7 +63,7 @@ class DgeToIdeogramTestCase(unittest.TestCase):
         dge_path = parsed_args.dge_path
         output_dir = parsed_args.output_dir
 
-        dge_to_ideogram.etl(gene_pos_path, dge_path, output_dir)
+        dge_to_ideogram.etl(gen_pos_path=gene_pos_path, dge_path=dge_path, output_dir=output_dir)
 
         output_files = glob.glob("data/*.json")
 

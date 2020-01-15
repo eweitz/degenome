@@ -182,16 +182,18 @@ def load(gen_pos, organism, output_dir):
 
     print('Wrote ' + output_path)
 
-def etl(args):
+def etl(gtf_path=None, organism=None, output_dir=''):
     """Extract, transform, and load GTF file to gen pos file
     """
-    gtf = extract(args.gtf_path)
-    gen_pos = transform(gtf, args.gtf_path, args.organism)
-    load(gen_pos, args.organism, args.output_dir)
+    if output_dir[-1] != '/':
+        output_dir += '/'
+    gtf = extract(gtf_path)
+    gen_pos = transform(gtf, gtf_path, organism)
+    load(gen_pos, organism, output_dir)
 
 def main():
     args = create_parser().parse_args()
-    etl(args)
+    etl(gtf_path=args.gtf_path, organism=args.organism, output_dir=args.output_dir)
 
 
 if __name__ == '__main__':

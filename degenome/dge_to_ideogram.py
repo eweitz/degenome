@@ -25,8 +25,6 @@ import csv
 def get_gene_coordinates(gene_pos_path):
     """Parse gene position file, return dictionary of coordinates for each gene
     """
-    print('gene_pos_path')
-    print(gene_pos_path)
     with open(gene_pos_path) as f:
         lines = f.readlines()
 
@@ -265,19 +263,6 @@ def get_dge_metadata(group, annots_by_chr_by_group):
 
     return dge_metadata, suffix
 
-def create_parser():
-    parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('--gen-pos-path',
-                        help='Path to input gene position file built by reduce_gtf.py')
-    parser.add_argument('--dge-path',
-                        help='Path to input differential gene expression (DGE) matrix')
-    parser.add_argument('--output-dir',
-                        help='Directory to send output data to',
-                        default='ideogram/data/annotations/')
-    return parser
-
 def load(content_by_suffix, dge_path, output_dir):
     for suffix in content_by_suffix:
         annots_json = content_by_suffix[suffix]
@@ -292,11 +277,10 @@ def load(content_by_suffix, dge_path, output_dir):
 
         print('Wrote ' + output_filename)
 
-def etl(gene_pos_path, dge_path, output_dir):
+def etl(gen_pos_path=None, dge_path=None, output_dir=''):
     if output_dir[-1] != '/':
         output_dir += '/'
-
-
+    gene_pos_path = gen_pos_path
     coordinates, gene_types, gene_pos_metadata = get_gene_coordinates(gene_pos_path)
     metadata, metadata_list, expressions, comparisons_by_group = parse_dge_matrix(dge_path)
 
@@ -333,7 +317,6 @@ def etl(gene_pos_path, dge_path, output_dir):
     # annotations data given only an accession
     if '' not in content_by_suffix:
         default_suffix = None
-        print(content_by_suffix.keys())
         for suffix in content_by_suffix:
             if 'control' not in suffix:
                 # Try to find a suffix indicating strongest treatment group
@@ -348,13 +331,25 @@ def etl(gene_pos_path, dge_path, output_dir):
 
     load(content_by_suffix, dge_path, output_dir)
 
+def create_parser():
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--gen-pos-path',
+                        help='Path to input gene position file built by reduce_gtf.py')
+    parser.add_argument('--dge-path',
+                        help='Path to input differential gene expression (DGE) matrix')
+    parser.add_argument('--output-dir',
+                        help='Directory to send output data to',
+                        default='')
+    return parser
 
 def main():
     args = create_parser().parse_args()
     gene_pos_path = args.gen_pos_path
     dge_path = args.dge_path
     output_dir = args.output_dir
-    etl(gene_pos_path, dge_path, output_dir)
+    etl(gen_pos_path=gene_pos_path, dge_path=dge_path, output_dir=output_dir)
 
 
 if __name__ == '__main__':
