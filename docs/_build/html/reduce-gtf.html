@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>DEGenome – Differential expression across the genome &mdash; degenome 0.0.1 documentation</title>
+  <title>Reduce GTF &mdash; degenome 0.0.1 documentation</title>
   
 
   
@@ -36,7 +36,8 @@
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="installation.html" /> 
+    <link rel="next" title="Transform DGE matrix" href="transform-dge-matrix.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -50,7 +51,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> degenome
+            <a href="index.html" class="icon icon-home"> degenome
           
 
           
@@ -80,11 +81,13 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce-gtf.html">Reduce GTF</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reduce GTF</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example-gtf-files">Example GTF files</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="transform-dge-matrix.html">Transform DGE matrix</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 </ul>
 
             
@@ -99,7 +102,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">degenome</a>
+          <a href="index.html">degenome</a>
         
       </nav>
 
@@ -128,15 +131,15 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>DEGenome – Differential expression across the genome</li>
+      <li>Reduce GTF</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/reduce-gtf.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -149,17 +152,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="degenome-differential-expression-across-the-genome">
-<h1>DEGenome – Differential expression across the genome<a class="headerlink" href="#degenome-differential-expression-across-the-genome" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://circleci.com/gh/eweitz/degenome"><img alt="Build" src="https://img.shields.io/circleci/build/github/eweitz/degenome.svg" /></a> <a class="reference external" href="https://codecov.io/gh/eweitz/degenome"><img alt="Coverage" src="https://codecov.io/gh/eweitz/degenome/branch/master/graph/badge.svg" /></a></p>
-<p>DEGenome transforms differential gene expression (DGE) data to <a class="reference external" href="https://github.com/eweitz/ideogram">Ideogram</a> JSON.</p>
-<p>Written in Python, the DEGenome pipeline takes in genome annotations and DGE
-matrices, and outputs Ideogram.js JSON annotation files.</p>
-<p>You can then upload Ideogram JSON to the cloud, and explore it in an
-interactive genome visualization at
-<a class="reference external" href="https://eweitz.github.io/ideogram/differential-expression">https://eweitz.github.io/ideogram/differential-expression</a>.</p>
-<a class="reference internal image-reference" href="_images/explore_differential_expression_across_the_genome.png"><img alt="Explore differential expression across the genome" src="_images/explore_differential_expression_across_the_genome.png" style="width: 690px;" /></a>
-<div class="toctree-wrapper compound">
+  <div class="section" id="reduce-gtf">
+<h1>Reduce GTF<a class="headerlink" href="#reduce-gtf" title="Permalink to this headline">¶</a></h1>
+<p>Each organism processed by DEGenome will need a reduced GTF, i.e. a “gen_pos.tsv” file.</p>
+<p>The <cite>gtf_to_gen_pos.py</cite> CLI module converts a GTF genome annotation file from
+GENCODE, Ensembl, or NCBI into a smaller, simpler, and more metadata-rich TSV
+gene position (“gen_pos”) file.  The purpose is to speed up, simplify, and
+enrich downstream pipelines that require only data on genes, and not e.g.
+transcripts or exons.</p>
+<div class="section" id="example-gtf-files">
+<h2>Example GTF files<a class="headerlink" href="#example-gtf-files" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_32/gencode.v32.basic.annotation.gtf.gz">Human (Homo sapiens), from GENCODE</a></p></li>
+<li><p><a class="reference external" href="ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M23/gencode.vM23.basic.annotation.gtf.gz">Mouse (Mus musculus), from GENCODE</a></p></li>
+<li><p><a class="reference external" href="ftp://ftp.ensemblgenomes.org/pub/release-45/plants/gtf/arabidopsis_thaliana/Arabidopsis_thaliana.TAIR10.45.gtf.gz">Thale cress (Arabidopsis thaliana), from Ensembl</a></p></li>
+<li><p><a class="reference external" href="ftp://ftp.ensemblgenomes.org/pub/release-45/metazoa/gtf/caenorhabditis_elegans/Caenorhabditis_elegans.WBcel235.45.gtf.gz">Worm (Caenorhabditis elegans), from Ensembl</a></p></li>
+<li><p><a class="reference external" href="ftp://ftp.ensembl.org/pub/release-98/gtf/rattus_norvegicus/Rattus_norvegicus.Rnor_6.0.98.chr.gtf.gz">Rat (Rattus norvegicus), from Ensembl</a></p></li>
+</ul>
 </div>
 </div>
 
@@ -171,8 +180,10 @@ interactive genome visualization at
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="transform-dge-matrix.html" class="btn btn-neutral float-right" title="Transform DGE matrix" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
