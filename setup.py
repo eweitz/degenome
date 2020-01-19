@@ -9,7 +9,6 @@ setup(
     url='https://github.com/eweitz/degenome',
     author='Eric Weitz',
     author_email='eric.m.weitz@gmail.com',
-    license='CC0-1.0',
     description='Pipeline to convert differential gene expression matrices to Ideogram JSON',
     long_description=long_description,
     long_description_content_type='text/x-rst',
