@@ -1,6 +1,9 @@
 # Ignore Python miscellanea
 env
 __pycache__
+dist
+build
+*egg-info*
 
 # Ignore app-specific miscellanea
 sampled_GLDS*json
