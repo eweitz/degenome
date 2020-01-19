@@ -1,4 +1,4 @@
-'''Convert differential gene expression (DGE) matrix into Ideogram annotations
+'''Convert differential gene expression (DGE) matrix into Ideogram JSON
 
 This pipeline converts a DGE matrix file containing gene expression summary
 statistics into an Ideogram.js annotations JSON file.  The resulting JSON file
