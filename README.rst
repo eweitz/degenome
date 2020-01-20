@@ -1,6 +1,6 @@
 DEGenome – Differential expression across the genome
 ====================================================
-|Build| |Coverage|
+|Build| |Coverage| |PyPI|
 
 DEGenome transforms differential gene expression data to Ideogram_ JSON.
 
@@ -11,5 +11,7 @@ DEGenome transforms differential gene expression data to Ideogram_ JSON.
   :target: https://circleci.com/gh/eweitz/degenome
 .. |Coverage| image:: https://codecov.io/gh/eweitz/degenome/branch/master/graph/badge.svg
   :target: https://codecov.io/gh/eweitz/degenome
+.. |PyPI| image:: https://img.shields.io/pypi/v/degenome.svg
+  :target: https://pypi.org/project/degenome
 .. _Ideogram: https://github.com/eweitz/ideogram
 .. _Read the docs: https://degenome.readthedocs.io
