@@ -2,7 +2,7 @@ DEGenome – Differential expression across the genome
 ====================================================
 |Build| |Coverage| |PyPI|
 
-DEGenome transforms differential gene expression data to Ideogram_ JSON.
+DEGenome transforms differential expression data into inputs for `exploratory genome analysis with Ideogram.js`_.
 
 `Read the docs`_, and try the `DEGenome tutorial on Terra
 <https://app.terra.bio/#workspaces/degenome/degenome/notebooks/launch/degenome-tutorial.ipynb>`_!
@@ -15,3 +15,4 @@ DEGenome transforms differential gene expression data to Ideogram_ JSON.
   :target: https://pypi.org/project/degenome
 .. _Ideogram: https://github.com/eweitz/ideogram
 .. _Read the docs: https://degenome.readthedocs.io
+.. _exploratory genome analysis with Ideogram.js: https://eweitz.github.io/ideogram/differential-expression?annots-url=https://www.googleapis.com/storage/v1/b/degenome/o/GLDS-4_array_differential_expression_ideogram_annots.json
